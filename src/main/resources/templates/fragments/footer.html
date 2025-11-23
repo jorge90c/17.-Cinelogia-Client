@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <footer th:fragment="footer" class="footer mt-auto py-4 bg-dark text-light shadow-lg">
+        <div class="container text-center">
+            <div class="row">
+                <!-- Columna 1 -->
+                <div class="col-md-4 mb-3">
+                    <h5 class="text-warning fw-bold">🎬 Cinelogía</h5>
+                    <p class="small text-secondary">
+                        Tu portal de cine favorito. Descubre, gestiona y comparte la magia del séptimo arte.
+                    </p>
+                </div>
+                <!-- Columna 2 -->
+                <div class="col-md-4 mb-3">
+                    <h6 class="text-warning">Enlaces rápidos</h6>
+                    <ul class="list-unstyled">
+                        <li><a th:href="@{/peliculas}" class="text-light text-decoration-none">Películas</a></li>
+                        <li><a th:href="@{/actores}" class="text-light text-decoration-none">Actores</a></li>
+                        <li><a th:href="@{/usuarios}" class="text-light text-decoration-none">Usuarios</a></li>
+                        <li><a th:href="@{/roles}" class="text-light text-decoration-none">Roles</a></li>
+                    </ul>
+                </div>
+                <!-- Columna 3 -->
+                <div class="col-md-4 mb-3">
+                    <h6 class="text-warning">Contacto</h6>
+                    <p class="small mb-1">Desarrollado por <b class="text-light">Jorge Cáceres</b></p>
+                    <p class="small">
+                        <a href="mailto:cinelogia@contacto.com" class="text-warning text-decoration-none">
+                            cinelogia@contacto.com
+                        </a>
+                    </p>
+                </div>
+            </div>
+            <hr class="border-warning">
+            <p class="small mb-0 text-secondary">© 2025 Cinelogía. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>
+

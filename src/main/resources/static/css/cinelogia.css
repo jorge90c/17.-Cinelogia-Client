@@ -1,0 +1,98 @@
+/*header , footer {
+    background-color:#0d0e11!important;
+}
+
+.form-control::placeholder,
+.form-select::placeholder {
+    color: #bbb;   
+    opacity: 1;    
+}*/
+
+.form-control::placeholder {
+    color: #f8f9fa; /* color Bootstrap text-light */
+    opacity: 0.8;   /* un poco más tenue que el texto normal */
+}
+
+.navbar {
+  background-color: rgba(0,0,0,0.9);
+  backdrop-filter: blur(4px);
+}
+.navbar .nav-link:hover {
+  color: #ffc107; /* amarillo Bootstrap */
+}
+
+header {
+  background: linear-gradient(to right, #000000, #1a1a1a);
+}
+header p.lead {
+  color: #e0e0e0; /* gris claro */
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+}
+header {
+  border-bottom: 3px solid #ffc107; /* amarillo */
+}
+nav.navbar {
+  border-top: 1px solid #444; /* gris */
+}
+
+nav.navbar {
+  background-color: rgba(0,0,0,0.85);
+  backdrop-filter: blur(6px);
+}
+
+.table td, .table th {
+    max-width: 150px;       /* límite de ancho */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.table {
+    font-size: 0.90rem;   /* más pequeño */
+}
+.table td, .table th {
+    padding: 0.4rem;      /* menos espacio vertical/horizontal */
+}
+
+.table td.titulo,
+.table td.direccion {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;   
+}
+
+.table td.sinopsis {
+    max-width: 150px;
+    white-space: normal;   /* permite saltos de línea */
+    word-wrap: break-word; /* corta palabras largas */
+}
+
+
+.table td.pais {
+    max-width: 60px;
+}
+
+.table td.actores {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal; /* permite saltos de línea */
+    word-wrap: break-word;
+}
+
+
+.table td.acciones {
+    white-space: nowrap; /* evita que los botones se rompan en varias líneas */
+    min-width: 140px;   /* 🔹 asegura espacio mínimo */
+}
+.table td.acciones .btn {
+    margin: 2px; /* espacio mínimo entre botones */
+    font-size: 0.75rem; /* botones más compactos */
+}
+
+.table td.acciones .btn {
+    display: block;      /* 🔹 cada botón ocupa toda la línea */
+    width: 100%;         /* opcional: que ocupen todo el ancho */
+    margin-bottom: 4px;  /* espacio entre botones */
+}

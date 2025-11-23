@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es"
+      th:replace="~{layout :: layout}">
+<body>
+<div th:fragment="contenido" class="d-flex justify-content-center">
+
+    <div class="card bg-dark text-light shadow" style="max-width: 700px; width: 100%;">
+        <div class="card-header text-warning fw-bold"
+             th:text="${modo == 'crear' ? 'Crear Usuario' : (modo == 'editar' ? 'Editar Usuario' : 'Ver Usuario')}"></div>
+
+        <div class="card-body">
+            <!-- Acción dinámica según modo -->
+            <form th:action="${modo == 'crear'} ? @{/usuarios/guardar} : @{/usuarios/actualizar/{id}(id=${usuario.id})}"
+                  th:object="${usuario}" method="post" novalidate>
+
+                <!-- Username -->
+                <div class="mb-3">
+                    <label for="username" class="form-label text-light">Nombre de Usuario</label>
+                    <input type="text" th:field="*{username}" class="form-control" id="username"
+                           placeholder="Ej: sebas123" th:disabled="${modo == 'verUsuario'}">
+                    <div class="text-danger small" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+                </div>
+
+                <!-- Password -->
+                <!-- 🔹 Solo se muestra en crear/editar, nunca en verUsuario -->
+                <div class="mb-3" th:if="${modo == 'crear' or modo == 'editar'}">
+                    <label for="password" class="form-label text-light"
+                        th:text="${modo == 'crear' ? 'Contraseña' : 'Ingrese nueva contraseña (La anterior se perderá)'}"></label>
+                    <input type="password" th:field="*{password}" class="form-control" id="password"
+                        placeholder="Contraseña segura">
+                    <div class="text-danger small" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                </div>
+
+                <!-- Correo -->
+                <div class="mb-3">
+                    <label for="correo" class="form-label text-light">Correo</label>
+                    <input type="email" th:field="*{correo}" class="form-control" id="correo"
+                           placeholder="ejemplo@correo.com" th:disabled="${modo == 'verUsuario'}">
+                    <div class="text-danger small" th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}"></div>
+                </div>
+
+                <!-- Nombre -->
+                <div class="mb-3">
+                    <label for="nombre" class="form-label text-light">Nombre</label>
+                    <input type="text" th:field="*{nombre}" class="form-control" id="nombre"
+                           placeholder="Nombre" th:disabled="${modo == 'verUsuario'}">
+                    <div class="text-danger small" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+                </div>
+
+                <!-- Apellido -->
+                <div class="mb-3">
+                    <label for="apellido" class="form-label text-light">Apellido</label>
+                    <input type="text" th:field="*{apellido}" class="form-control" id="apellido"
+                           placeholder="Apellido" th:disabled="${modo == 'verUsuario'}">
+                    <div class="text-danger small" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></div>
+                </div>
+
+                <!-- Rol -->
+                <div class="mb-3" th:if="${modo != 'crear'}">
+                    <label for="rol" class="form-label text-light">Rol</label>
+
+                    <!-- Caso verUsuario: solo mostrar el nombre del rol -->
+                    <div th:if="${modo == 'verUsuario'}" class="form-control bg-secondary text-light" readonly>
+                        <span th:text="${usuario.rol.nombre}"></span>
+                    </div>
+
+                    <!-- Caso editar: desplegable -->
+                    <select th:if="${modo == 'editar'}"
+                            th:field="*{rol.id}" class="form-select" id="rol">
+                        <option th:each="rol : ${roles}" th:value="${rol.id}" th:text="${rol.nombre}"
+                                th:selected="${usuario.rol != null and usuario.rol.id == rol.id}"></option>
+                    </select>
+                </div>
+
+                <!-- Botones -->
+                <div class="d-flex justify-content-between">
+                    <a th:href="@{/usuarios}" class="btn btn-outline-light">⬅️ Volver</a>
+                    <button type="submit" class="btn btn-warning" th:if="${modo == 'crear'}">💾 Guardar</button>
+                    <button type="submit" class="btn btn-warning" th:if="${modo == 'editar'}">✏️ Actualizar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

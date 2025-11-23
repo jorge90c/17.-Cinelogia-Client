@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<body>
+<div th:insert="~{layout}">
+    <div th:fragment="contenido">
+        <div class="d-flex justify-content-center align-items-center" style="min-height: 75vh;">
+            <div class="card bg-dark text-light p-4 shadow" style="width: 100%; max-width: 500px;">
+                <h3 class="text-center text-warning mb-4"
+                    th:text="${pelicula.id} != null ? '🎬 Película | ID: ' + ${pelicula.id} : '🎬 Nueva Película'"></h3>
+
+                <!-- Formulario CREAR -->
+                <form th:if="${modo} == 'crear'"
+                      th:action="@{/guardarPelicula}"
+                      th:object="${pelicula}" method="post" enctype="multipart/form-data">
+
+                    <div class="mb-3">
+                        <label for="titulo" class="form-label">Título</label>
+                        <input type="text" th:field="*{titulo}" required class="form-control" id="titulo" placeholder="Título de la película">
+                        <div class="text-danger" th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="anio" class="form-label">Año</label>
+                        <input type="number" th:field="*{anio}" required class="form-control" id="anio" placeholder="Ej: 2006">
+                        <div class="text-danger" th:if="${#fields.hasErrors('anio')}" th:errors="*{anio}"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="duracion" class="form-label">Duración (min)</label>
+                        <input type="number" th:field="*{duracion}" required class="form-control" id="duracion" placeholder="Ej: 120">
+                        <div class="text-danger" th:if="${#fields.hasErrors('duracion')}" th:errors="*{duracion}"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="pais" class="form-label">País</label>
+                        <input type="text" th:field="*{pais}" required class="form-control" id="pais" placeholder="Ej: España">
+                        <div class="text-danger" th:if="${#fields.hasErrors('pais')}" th:errors="*{pais}"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="direccion" class="form-label">Dirección</label>
+                        <input type="text" th:field="*{direccion}" required class="form-control" id="direccion" placeholder="Director de la película">
+                        <div class="text-danger" th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="genero" class="form-label">Género</label>
+                        <select th:field="*{genero}" class="form-select bg-dark text-light border-warning" id="genero">
+                            <option value="">🎭 Selecciona un género</option>
+                            <option value="Drama">Drama</option>
+                            <option value="Suspenso">Suspenso</option>
+                            <option value="Romance">Romance</option>
+                            <option value="Thriller">Thriller</option>
+                            <option value="Biografía">Biografía</option>
+                        </select>
+                        <div class="text-danger" th:if="${#fields.hasErrors('genero')}" th:errors="*{genero}"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="sinopsis" class="form-label">Sinopsis</label>
+                        <textarea th:field="*{sinopsis}" required class="form-control" id="sinopsis" rows="3" placeholder="Breve descripción"></textarea>
+                        <div class="text-danger" th:if="${#fields.hasErrors('sinopsis')}" th:errors="*{sinopsis}"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="imagenPortada" class="form-label">Imagen portada</label>
+                        <input type="file" name="file" class="form-control" id="imagenPortada">
+                        <div class="text-danger" th:if="${error != null}" th:text="${error}"></div>
+                    </div>
+
+                    <!-- Nueva sección: Actores -->
+                    <div class="mb-3">
+                        <label class="form-label">Actores</label>
+                        <select name="actoresIds" multiple class="form-select" id="actoresSelect">
+                            <option th:each="actor : ${actoresDisponibles}"
+                                    th:value="${actor.id}"
+                                    th:text="${actor.nombre}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="mt-3">
+                        <button type="submit" class="btn btn-warning w-100">Guardar película</button>
+                    </div>
+                </form>
+
+                <!-- Formulario EDITAR -->
+                <form th:if="${modo} == 'editar'"
+                      th:action="@{/actualizarPelicula/{id}(id=${pelicula.id})}"
+                      th:object="${pelicula}" method="post" enctype="multipart/form-data">
+
+                    <div class="mb-3">
+                        <label for="titulo" class="form-label">Título</label>
+                        <input type="text" th:field="*{titulo}" required class="form-control" id="titulo">
+                        <div class="text-danger" th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="anio" class="form-label">Año</label>
+                        <input type="number" th:field="*{anio}" required class="form-control" id="anio">
+                        <div class="text-danger" th:if="${#fields.hasErrors('anio')}" th:errors="*{anio}"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="duracion" class="form-label">Duración (min)</label>
+                        <input type="number" th:field="*{duracion}" required class="form-control" id="duracion">
+                        <div class="text-danger" th:if="${#fields.hasErrors('duracion')}" th:errors="*{duracion}"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="pais" class="form-label">País</label>
+                        <input type="text" th:field="*{pais}" required class="form-control" id="pais">
+                        <div class="text-danger" th:if="${#fields.hasErrors('pais')}" th:errors="*{pais}"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="direccion" class="form-label">Dirección</label>
+                        <input type="text" th:field="*{direccion}" required class="form-control" id="direccion">
+                        <div class="text-danger" th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="genero" class="form-label">Género</label>
+                        <select th:field="*{genero}" class="form-select bg-dark text-light border-warning" id="genero">
+                            <option value="">🎭 Selecciona un género</option>
+                            <option value="Drama">Drama</option>
+                            <option value="Suspenso">Suspenso</option>
+                            <option value="Romance">Romance</option>
+                            <option value="Thriller">Thriller</option>
+                            <option value="Biografía">Biografía</option>
+                        </select>
+                        <div class="text-danger" th:if="${#fields.hasErrors('genero')}" th:errors="*{genero}"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="sinopsis" class="form-label">Sinopsis</label>
+                        <textarea th:field="*{sinopsis}" required class="form-control" id="sinopsis" rows="3"></textarea>
+                        <div class="text-danger" th:if="${#fields.hasErrors('sinopsis')}" th:errors="*{sinopsis}"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="imagenPortada" class="form-label">Imagen portada</label>
+                        <img th:src="${pelicula.imagenPortada}" class="img-fluid rounded mb-2" alt="Portada">
+                        <input type="file" name="file" class="form-control" id="imagenPortada">
+                        <div class="text-danger" th:if="${error != null}" th:text="${error}"></div>
+                    </div>
+
+                    <!-- Actores (editar) -->
+                    <div class="mb-3">
+                        <label class="form-label">Actores</label>
+                        <select name="actoresIds" multiple class="form-select bg-dark text-light border-warning" id="actoresSelectEditar">
+                            <option th:each="actor : ${actoresDisponibles}"
+                                    th:value="${actor.id}"
+                                    th:text="${actor.nombre}"
+                                    th:selected="${pelicula.actores.contains(actor)}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="mt-3">
+                        <button type="submit" class="btn btn-warning w-100">Actualizar película</button>
+                    </div>
+                </form>
+
+                <!-- Vista SOLO VER -->
+                <div th:if="${modo} == 'ver'">
+                    <div class="mb-3">
+                        <label class="form-label">Título</label>
+                        <input type="text" th:value="${pelicula.titulo}" disabled class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Año</label>
+                        <input type="number" th:value="${pelicula.anio}" disabled class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Duración (min)</label>
+                        <input type="number" th:value="${pelicula.duracion}" disabled class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">País</label>
+                        <input type="text" th:value="${pelicula.pais}" disabled class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Dirección</label>
+                        <input type="text" th:value="${pelicula.direccion}" disabled class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Género</label>
+                        <input type="text" th:value="${pelicula.genero}" disabled class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Sinopsis</label>
+                        <textarea disabled class="form-control" rows="3" th:text="${pelicula.sinopsis}"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Imagen portada</label>
+                        <img th:src="${pelicula.imagenPortada}" class="img-fluid rounded" alt="Portada">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Actores</label>
+                        <ul class="list-group">
+                            <li class="list-group-item bg-dark text-light"
+                                th:each="actor : ${pelicula.actores}"
+                                th:text="|${actor.nombre}${actor.paisNacimiento != null ? ' — ' + actor.paisNacimiento : ''}${actor.fechaNacimiento != null ? ' (' + #temporals.format(actor.fechaNacimiento, 'dd/MM/yyyy') + ')' : ''}|">
+                            </li>
+                            <li class="list-group-item bg-dark text-light" 
+                                th:if="${pelicula.actores == null or #lists.isEmpty(pelicula.actores)}">
+                                Sin actores registrados
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-3">
+                        <a th:href="@{/ListaPeliculas}" class="btn btn-secondary w-100">⬅ Volver a la lista</a>
+                    </div>  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#actoresSelect').select2({
+            placeholder: "Selecciona actores",
+            allowClear: true
+        });
+    });
+
+    $(document).ready(function() {
+        $('#actoresSelectEditar').select2({
+            placeholder: "Selecciona actores",
+            allowClear: true
+        });
+    });
+</script>
+
+</body>
+</html>

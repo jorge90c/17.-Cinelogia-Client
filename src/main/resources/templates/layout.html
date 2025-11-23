@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es" th:fragment="layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Cinelogía</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/cinelogia.css}" rel="stylesheet">
+</head>
+<body>
+    <!-- HEADER -->
+    <div th:replace="~{fragments/header :: header}"></div>
+    <!-- NAVBAR -->
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+    <!-- CONTENIDO -->
+    <main class="container my-4">
+        <div th:replace="~{::contenido}"></div>
+    </main>
+    <!-- FOOTER -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/cinelogia.js}"></script>
+</body>
+</html>

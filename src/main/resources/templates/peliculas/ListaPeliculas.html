@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<body>
+<div th:insert="~{layout}">
+    <div th:fragment="contenido">
+        <div class="container my-4">
+            <h2 class="text-warning text-center mb-4">🎬 Lista de Películas</h2>
+
+            <!-- Botón para añadir nueva película -->
+            <div class="text-end mb-3">
+                <a th:href="@{/NuevaPelicula}" class="btn btn-warning">➕ Añadir nueva película</a>
+            </div>
+
+            <!-- Buscador -->
+            <form th:action="@{/ListaPeliculas}" method="get" class="row g-3 mb-4 align-items-center">
+                <div class="col-md-3">
+                    <input type="text" name="titulo" class="form-control bg-dark text-light border-warning"
+                           placeholder="🔍 Buscar por título...">
+                </div>
+                <div class="col-md-3">
+                    <input type="text" name="actor" class="form-control bg-dark text-light border-warning"
+                           placeholder="🔍 Buscar por Actor...">
+                </div>
+                <div class="col-md-4">
+                    <select name="genero" class="form-select bg-dark text-light border-warning">
+                        <option value="">🎭 Todos los géneros</option>
+                        <option value="Drama">Drama</option>
+                        <option value="Suspenso">Suspenso</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Thriller">Thriller</option>
+                        <option value="Biografía">Biografía</option>
+                    </select>
+                </div>
+                <div class="col-md-2 text-end">
+                    <button type="submit" class="btn btn-warning w-100">Buscar</button>
+                </div>
+            </form>
+
+            <!-- Tabla de películas -->
+            <div class="table-responsive">
+                <table class="table table-dark table-striped align-middle">
+                    <thead class="table-warning text-dark">
+                        <tr>
+                            <th>Título</th>
+                            <th>Año</th>
+                            <th>Duración</th>
+                            <th>País</th>
+                            <th>Dirección</th>
+                            <th>Género</th>
+                            <th class="d-none d-md-table-cell">Sinopsis</th>
+                            <th>Portada</th>
+                            <th>Actores</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="pelicula : ${peliculas}">
+                            <td class="titulo" th:text="${pelicula.titulo}"></td>
+                            <td th:text="${pelicula.anio}"></td>
+                            <td th:text="${pelicula.duracion} + ' min'"></td>
+                            <td class="pais" th:text="${pelicula.pais}"></td>
+                            <td class="direccion" th:text="${pelicula.direccion}"></td>
+                            <td th:text="${pelicula.genero}"></td>
+                            <td class="sinopsis d-none d-md-table-cell" th:text="${pelicula.sinopsis}"></td>
+                            <td>
+                                <img th:src="@{${pelicula.imagenPortada}}" alt="Portada" style="width:80px; height:auto;">
+                            </td>
+                            <td class="actores">
+                                <ul class="list-unstyled mb-0">
+                                    <li th:each="actor : ${pelicula.actores}" th:text="${actor.nombre}"></li>
+                                    <li th:if="${pelicula.actores == null or #lists.isEmpty(pelicula.actores)}">Sin actores</li>
+                                </ul>
+                            </td>
+                            <td class="acciones">
+                                <a th:href="@{'/peliculas/' + ${pelicula.id}}" class="btn btn-sm btn-outline-warning">Ver</a>
+                                <a th:href="@{'/editarPelicula/' + ${pelicula.id}}" class="btn btn-sm btn-outline-light">Editar</a>
+                                <!--<a th:href="@{'/eliminarPelicula/' + ${pelicula.id}}" class="btn btn-sm btn-outline-danger">Eliminar</a>-->
+                                <!-- Botón que abre el modal -->
+                                <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" th:attr="data-bs-target='#confirmarEliminar' + ${pelicula.id}">
+                                    Eliminar
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" th:id="'confirmarEliminar' + ${pelicula.id}" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content bg-dark text-light">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Confirmar eliminación</h5>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>¿Seguro que deseas eliminar la película <strong th:text="${pelicula.titulo}"></strong>?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <form th:action="@{/eliminarPelicula/{id}(id=${pelicula.id})}" method="post">
+                                            <input type="hidden" name="_method" value="delete"/>
+                                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                                        </form>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
