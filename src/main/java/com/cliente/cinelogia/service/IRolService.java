@@ -1,10 +1,10 @@
 package com.cliente.cinelogia.service;
 import java.util.List;
-import com.cliente.cinelogia.model.Rol;
+import com.cliente.cinelogia.model.Authority;
 
 public interface IRolService {
-    List<Rol> listarRoles(); 
-    Rol buscarPorId(Integer id);
-    Rol crearRol(Rol rol);   
-    Rol eliminarRol(Integer id);
+    List<Authority> listarRoles(); 
+    Authority buscarPorId(Integer id);
+    Authority crearRol(Authority rol);   
+    Authority eliminarRol(Integer id);
 }

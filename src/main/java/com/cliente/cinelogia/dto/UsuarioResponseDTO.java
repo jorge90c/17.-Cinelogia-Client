@@ -3,7 +3,7 @@ package com.cliente.cinelogia.dto;
 //import com.cliente.cinelogia.model.Rol;
 
 public class UsuarioResponseDTO {
-
+/* 
     private Long id;
     private String username;
     private String correo;
@@ -44,6 +44,6 @@ public class UsuarioResponseDTO {
     //public void setRol(Rol rol) { this.rol = rol; }
 
     public String getRolNombre() { return rolNombre; }
-    public void setRolNombre(String rolNombre) { this.rolNombre = rolNombre; }
+    public void setRolNombre(String rolNombre) { this.rolNombre = rolNombre; }*/
 }
 

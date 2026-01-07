@@ -2,7 +2,7 @@ package com.cliente.cinelogia.service;
 import org.springframework.stereotype.Service;
 import com.cliente.cinelogia.client.RolClient;
 import java.util.List;
-import com.cliente.cinelogia.model.Rol;
+import com.cliente.cinelogia.model.Authority;
 
 @Service
 public class RolServiceImpl implements IRolService {
@@ -15,24 +15,24 @@ public class RolServiceImpl implements IRolService {
     }
 
     @Override 
-    public List<Rol> listarRoles(){
-        List<Rol> lista = rolClient.listarRoles(); 
+    public List<Authority> listarRoles(){
+        List<Authority> lista = rolClient.listarRoles(); 
         return lista;
     }
-
+    
     @Override 
-    public Rol buscarPorId(Integer id){
+    public Authority buscarPorId(Integer id){
         return rolClient.buscarPorId(id);
     }
 
     @Override
-    public Rol crearRol(Rol rol) {
-        return rolClient.creaRol(rol);
+    public Authority crearRol(Authority rol) {
+        return rolClient.guardarRol(rol);
     }
 
     @Override
-    public Rol eliminarRol(Integer id) {
-        return rolClient.eliminaRol(id);
+    public Authority eliminarRol(Integer id) {
+        return rolClient.eliminarPorId(id);
     }           
     
 }

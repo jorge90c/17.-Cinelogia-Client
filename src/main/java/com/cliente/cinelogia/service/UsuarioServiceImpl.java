@@ -3,10 +3,7 @@ package com.cliente.cinelogia.service;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import com.cliente.cinelogia.client.UsuarioClient;
-import com.cliente.cinelogia.dto.LoginDTO;
-import com.cliente.cinelogia.dto.UsuarioResponseDTO;
-import com.cliente.cinelogia.dto.UsuarioRolUpdateDTO;
-import com.cliente.cinelogia.model.Usuario;
+import com.cliente.cinelogia.model.User;
 
 @Service
 public class UsuarioServiceImpl implements IUsuarioService {
@@ -18,43 +15,43 @@ public class UsuarioServiceImpl implements IUsuarioService {
     }
 
     @Override
-    public List<UsuarioResponseDTO> listarUsuarios(){
+    public List<User> listarUsuarios(){
         return usuarioClient.listarUsuarios();
     }
 
     @Override
-    public UsuarioResponseDTO buscarPorId(Long id){
-        return usuarioClient.buscarPorId(id);
+    public User buscarPorId(Integer id){
+        return usuarioClient.buscarUsuarioPorId(id);
     }
 
     @Override
-    public UsuarioResponseDTO buscarPorUsername(String username){
+    public List<User> buscarPorUsername(String username){
         return usuarioClient.buscarPorUsername(username);
     }
 
     @Override
-    public UsuarioResponseDTO crearUsuario(Usuario usuario){
-        return usuarioClient.crearUsuario(usuario);
+    public User buscarPorCorreo(String correo){
+        return usuarioClient.buscarPorCorreo(correo);
+    }
+    
+    @Override public User login(String correo, String clave) 
+    { 
+        return usuarioClient.login(correo, clave); 
     }
 
     @Override
-    public UsuarioResponseDTO actualizarUsuario(Long id, Usuario usuario){
+    public User crearUsuario(User usuario){
+        return usuarioClient.guardarUsuario(usuario);
+    }
+
+    @Override
+    public User actualizarUsuario(Integer id, User usuario){
         return usuarioClient.actualizarUsuario(id, usuario);
     }
 
     @Override
-    public void eliminarUsuario(Long id){
+    public void eliminarUsuario(Integer id){
         usuarioClient.eliminarUsuario(id);
-    }
-
-    @Override
-    public String login(LoginDTO loginDTO){
-        return usuarioClient.login(loginDTO);
-    }
-
-    @Override
-    public UsuarioResponseDTO actualizarRol(Long id,UsuarioRolUpdateDTO dto){
-        return usuarioClient.actualizarRol(id, dto);
     }
 
 }

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es"
+      th:replace="~{layout :: layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Review</title>
+</head>
+
+<body>
+<div th:fragment="contenido" class="d-flex justify-content-center mt-5">
+
+    <div class="card bg-dark text-light shadow" style="max-width: 600px; width: 100%;">
+
+        <div class="card-header text-warning fw-bold"
+             th:text="${modo == 'editar' ? 'Editar comentario' : 'Añadir comentario'}"></div>
+
+        <div class="card-body">
+
+            <form th:action="${modo == 'editar'} ? @{/reviews/actualizar} : @{/reviews/guardar}"
+      method="post" accept-charset="UTF-8">
+
+                
+                <input type="hidden" name="idReviews" th:if="${modo == 'editar'}"
+                       th:value="${review.idReviews}"/>
+
+             
+                <input type="hidden" name="idPelicula" th:value="${review.idPelicula}"/>
+
+               
+                <div class="mb-3">
+                    <label class="form-label text-light">Usuario</label>
+                    <input type="text" class="form-control bg-secondary text-light"
+                           th:value="${usuario}" readonly>
+                </div>
+
+                <!-- Fecha -->
+                <div class="mb-3">
+                    <label class="form-label text-light">Fecha</label>
+                    <input type="text" class="form-control bg-secondary text-light"
+                           th:value="${fechaActual}" readonly>
+                </div>
+
+                <!-- Valoración -->
+                <div class="mb-3">
+                    <label class="form-label text-light">Valoración</label>
+                    <textarea name="valoracion"
+                              class="form-control bg-secondary text-light"
+                              rows="3"
+                              th:text="${review.valoracion}"
+                              required></textarea>
+                </div>
+
+               
+                <div class="mb-3">
+                    <label class="form-label text-light">Nota (1-10)</label>
+                    <input type="number" name="nota" min="1" max="10"
+                           class="form-control bg-secondary text-light"
+                           th:value="${review.nota}"
+                           required>
+                </div>
+
+               
+                <div class="d-flex justify-content-between">
+                    <a th:href="@{/mis-reviews}" class="btn btn-outline-light">⬅️ Volver</a>
+                    <button type="submit" class="btn btn-warning">💾 Guardar</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

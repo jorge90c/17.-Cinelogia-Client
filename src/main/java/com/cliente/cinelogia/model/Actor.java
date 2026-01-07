@@ -1,12 +1,7 @@
 package com.cliente.cinelogia.model;
-
 import java.time.LocalDate;
-
 import org.springframework.format.annotation.DateTimeFormat;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-
-
 
 public class Actor {
 
@@ -14,13 +9,12 @@ public class Actor {
     private String nombre;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @DateTimeFormat(pattern = "yyyy-MM-dd") //útil si usas formularios
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaNacimiento;
     private String paisNacimiento;
 
     public Actor() {}
 
-    // Getters y Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

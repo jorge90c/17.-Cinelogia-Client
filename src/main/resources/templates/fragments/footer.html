@@ -15,10 +15,11 @@
                 <div class="col-md-4 mb-3">
                     <h6 class="text-warning">Enlaces rápidos</h6>
                     <ul class="list-unstyled">
-                        <li><a th:href="@{/peliculas}" class="text-light text-decoration-none">Películas</a></li>
-                        <li><a th:href="@{/actores}" class="text-light text-decoration-none">Actores</a></li>
-                        <li><a th:href="@{/usuarios}" class="text-light text-decoration-none">Usuarios</a></li>
-                        <li><a th:href="@{/roles}" class="text-light text-decoration-none">Roles</a></li>
+                        <li><a th:href="@{/peliculas}" class="text-light text-decoration-none" sec:authorize="hasRole('ROLE_ADMIN')">Películas</a></li>
+                        <li><a th:href="@{/actores}" class="text-light text-decoration-none" sec:authorize="hasRole('ROLE_ADMIN')">Actores</a></li>
+                        <li><a th:href="@{/usuarios}" class="text-light text-decoration-none" sec:authorize="hasRole('ROLE_ADMIN')">Usuarios</a></li>
+                        <li><a th:href="@{/roles}" class="text-light text-decoration-none" sec:authorize="hasRole('ROLE_ADMIN')">Roles</a></li>
+                        <li><a th:href="@{/mis-reviews}" class="text-light text-decoration-none" sec:authorize="isAuthenticated()">Mis Comentarios</a></li>
                     </ul>
                 </div>
                 <!-- Columna 3 -->

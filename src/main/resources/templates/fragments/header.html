@@ -11,14 +11,22 @@
                     Donde cada película tiene su historia
                 </p>
             </div>
-            <div>
-                <!-- Mostrar solo si el usuario NO está autenticado -->
-                <a th:href="@{/login}" class="btn btn-outline-warning me-2" sec:authorize="!isAuthenticated()">Ingresar</a>
+            <div class="d-flex align-items-center gap-3">
+        
+                <span class="text-light" sec:authorize="isAuthenticated()">HOLA,</span>
+                <span class="text-light fw-bold" sec:authorize="isAuthenticated()" th:text="${#strings.substringBefore(#authentication.name, '@')}"> </span> 
+                 
 
-                <!-- Mostrar solo si el usuario está autenticado -->
-                <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()" class="d-inline">
-                    <button type="submit" class="btn btn-warning">Cerrar sesión</button>
+                 <span class="text-light fw-bold" sec:authorize="isAuthenticated()">|</span>
+                <span class="text-light fw-bold" sec:authorize="isAuthenticated()" th:text="${#strings.substring(#authentication.principal.authorities[0].authority, 5)}"> </span> 
+          
+                <a th:href="@{/login}" class="btn btn-outline-warning" sec:authorize="!isAuthenticated()">Ingresar</a> 
+                   
+               
+                <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()" class="d-inline"> 
+                    <button type="submit" class="btn btn-warning">Cerrar sesión</button> 
                 </form>
+
             </div>
         </div>
     </header>

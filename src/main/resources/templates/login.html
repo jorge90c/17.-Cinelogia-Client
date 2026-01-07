@@ -3,23 +3,46 @@
 <body>
 <div th:insert="~{layout}">
     <div th:fragment="contenido">
+
         <div class="d-flex justify-content-center align-items-center" style="min-height: 70vh;">
-        <div class="card bg-dark text-light p-4 shadow" style="width: 100%; max-width: 400px;">
-            <h3 class="text-center text-warning mb-4">🎬 Iniciar sesión</h3>
-            <form method="post" th:action="@{/login}">
-                <div class="mb-3">
-                    <label for="username" class="form-label">Usuario</label>
-                    <input type="text" class="form-control" id="username" name="username" placeholder="Tu usuario">
+
+            <div class="card bg-dark text-light p-4 shadow" style="width: 100%; max-width: 400px;">
+
+                <h3 class="text-center text-warning mb-4">🎬 Iniciar sesión</h3>
+
+                
+                <div th:if="${param.error}" class="alert alert-danger text-center">
+                    Usuario o contraseña incorrectos
                 </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Contraseña</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="••••••••">
+
+                <div th:if="${param.logout}" class="alert alert-success text-center">
+                    Sesión cerrada correctamente
                 </div>
-                <button type="submit" class="btn btn-warning w-100">Ingresar</button>
-            </form>
-            <p class="mt-3 text-center text-muted small">¿No tienes cuenta? <a th:href="@{/usuarios/nuevo}" class="text-warning">Regístrate</a></p>
+
+                <form method="post" th:action="@{/login}">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Usuario</label>
+                        <input type="text" class="form-control" id="username" name="username"
+                               placeholder="Tu usuario" autofocus required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="password" name="password"
+                               placeholder="••••••••" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-warning w-100">Ingresar</button>
+                </form>
+
+                <p class="mt-3 text-center text-muted small">
+                    ¿No tienes cuenta?
+                    <a th:href="@{/usuarios/nuevo}" class="text-warning">Regístrate</a>
+                </p>
+
+            </div>
         </div>
-        </div>
+
     </div>
 </div>
 </body>

@@ -56,7 +56,6 @@ public class PeliculaController {
         return "peliculas/ListaPeliculas";
     }
 
-    /*Metodo de visualizacion */
     @GetMapping("/peliculas/{id}")
     public String verPelicula(Model model,@PathVariable("id") Integer id) {
         Pelicula pelicula = peliculaService.buscarPorId(id); 
@@ -65,7 +64,6 @@ public class PeliculaController {
         return "peliculas/pelicula";
     }
 
-    /*Metodo de creacion */
     @GetMapping("/NuevaPelicula")
     public String nuevaPelicula(Model model) 
     {
@@ -77,20 +75,6 @@ public class PeliculaController {
         return "peliculas/pelicula";
     }
 
-    /*Metodo de creacion */
-    /*@PostMapping("/guardarPelicula")
-    public String guardarPelicula(@Valid @ModelAttribute("pelicula") Pelicula pelicula,
-                                BindingResult result,Model model) 
-    {
-        if (result.hasErrors()) {
-        model.addAttribute("modo", "crear");
-        return "pelicula"; 
-        }
-        peliculaService.crearPelicula(pelicula);
-        return "redirect:/ListaPeliculas";
-    }*/
-
-    /*Metodo de eliminacion */
     @PostMapping("/eliminarPelicula/{id}")
     public String eliminarPelicula(@PathVariable("id") Integer id) {
         peliculaService.eliminarPelicula(id);
@@ -98,14 +82,12 @@ public class PeliculaController {
     }
 
     
-    /*Metodos de edicion */
     @GetMapping("/editarPelicula/{id}")
     public String preEditarPelicula(Model model,@PathVariable("id") Integer id) {
         Pelicula pelicula = peliculaService.buscarPorId(id); 
         model.addAttribute("pelicula", pelicula);
         model.addAttribute("modo", "editar"); 
 
-        // 🔹 Traer lista de actores disponibles
         List<Actor> actores = actorService.listarActores();
         model.addAttribute("actoresDisponibles", actores);
         return "peliculas/pelicula";
@@ -119,7 +101,6 @@ public class PeliculaController {
                                 Model model) {
         Pelicula existente = peliculaService.buscarPorId(id);
 
-        // Imagen
         if (file != null && !file.isEmpty()) {
             try {
                 String carpeta = "uploads/";
@@ -138,7 +119,6 @@ public class PeliculaController {
             pelicula.setImagenPortada(existente.getImagenPortada());
         }
 
-        // Actores
         if (actoresIds != null && !actoresIds.isEmpty()) {
             List<Actor> actoresSeleccionados = new ArrayList<>();
             for (Long actorId : actoresIds) {
@@ -169,8 +149,6 @@ public class PeliculaController {
             model.addAttribute("actoresDisponibles", actorService.listarActores());
             return "peliculas/pelicula";
         }
-
-        // Imagen
         if (file != null && !file.isEmpty()) {
             try {
                 String carpeta = "uploads/";
@@ -192,7 +170,6 @@ public class PeliculaController {
             return "peliculas/pelicula";
         }
 
-        // 🔹 Construir lista de actores a partir de los IDs seleccionados
         if (actoresIds != null && !actoresIds.isEmpty()) {
             List<Actor> actoresSeleccionados = new ArrayList<>();
             for (Long id : actoresIds) {

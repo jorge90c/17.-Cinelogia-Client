@@ -5,43 +5,43 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.service.annotation.*;
 
-import com.cliente.cinelogia.model.Usuario;
-import com.cliente.cinelogia.dto.LoginDTO;
-import com.cliente.cinelogia.dto.UsuarioResponseDTO;
-import com.cliente.cinelogia.dto.UsuarioRolUpdateDTO;
+import com.cliente.cinelogia.model.User;
+
 
 @HttpExchange("/usuarios")
 public interface UsuarioClient {
 
     // Listar todos los usuarios
     @GetExchange
-    List<UsuarioResponseDTO> listarUsuarios();
+    List<User> listarUsuarios();
 
-    // Buscar usuario por ID
     @GetExchange("/{id}")
-    UsuarioResponseDTO buscarPorId(@PathVariable Long id);
+    User buscarUsuarioPorId(@PathVariable Integer id);
 
-    // Buscar usuario por username
     @GetExchange("/username/{username}")
-    UsuarioResponseDTO buscarPorUsername(@PathVariable String username);
+    List<User> buscarPorUsername(@PathVariable String username);
 
-    // Crear usuario
-    @PostExchange
-    UsuarioResponseDTO crearUsuario(@RequestBody Usuario usuario);
+    @GetExchange("/buscar/{correo}")
+    User buscarPorCorreo(@PathVariable String correo);
 
-    // Actualizar usuario completo
-    @PutExchange("/{id}")
-    UsuarioResponseDTO actualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuario);
+    @GetExchange("/login/{correo}/{clave}")
+    User login(@PathVariable String correo, @PathVariable String clave);
 
-    // Eliminar usuario
+    @PostExchange(
+        contentType = "application/json;charset=UTF-8",
+        accept = "application/json;charset=UTF-8"
+    )
+    User guardarUsuario(@RequestBody User usuario);
+
+    @PutExchange(
+        url = "/{id}",
+        contentType = "application/json;charset=UTF-8",
+        accept = "application/json;charset=UTF-8"
+    )
+    User actualizarUsuario(@PathVariable Integer id, @RequestBody User usuario);
+
+
     @DeleteExchange("/{id}")
-    void eliminarUsuario(@PathVariable Long id);
+    void eliminarUsuario(@PathVariable Integer id);
 
-    // Login
-    @PostExchange("/login")
-    String login(@RequestBody LoginDTO loginDTO);
-
-    // Actualizar solo el rol del usuario
-    @PutExchange("/rol/{id}")
-    UsuarioResponseDTO actualizarRol(@PathVariable Long id, @RequestBody UsuarioRolUpdateDTO dto);
 }

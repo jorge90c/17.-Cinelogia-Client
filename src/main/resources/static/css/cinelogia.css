@@ -1,16 +1,6 @@
-/*header , footer {
-    background-color:#0d0e11!important;
-}
-
-.form-control::placeholder,
-.form-select::placeholder {
-    color: #bbb;   
-    opacity: 1;    
-}*/
-
 .form-control::placeholder {
-    color: #f8f9fa; /* color Bootstrap text-light */
-    opacity: 0.8;   /* un poco más tenue que el texto normal */
+    color: #f8f9fa; 
+    opacity: 0.8;   
 }
 
 .navbar {
@@ -18,21 +8,21 @@
   backdrop-filter: blur(4px);
 }
 .navbar .nav-link:hover {
-  color: #ffc107; /* amarillo Bootstrap */
+  color: #ffc107; 
 }
 
 header {
   background: linear-gradient(to right, #000000, #1a1a1a);
 }
 header p.lead {
-  color: #e0e0e0; /* gris claro */
+  color: #e0e0e0;
   text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
 }
 header {
-  border-bottom: 3px solid #ffc107; /* amarillo */
+  border-bottom: 3px solid #ffc107; 
 }
 nav.navbar {
-  border-top: 1px solid #444; /* gris */
+  border-top: 1px solid #444; 
 }
 
 nav.navbar {
@@ -41,17 +31,17 @@ nav.navbar {
 }
 
 .table td, .table th {
-    max-width: 150px;       /* límite de ancho */
+    max-width: 150px;       
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
 .table {
-    font-size: 0.90rem;   /* más pequeño */
+    font-size: 0.90rem;   
 }
 .table td, .table th {
-    padding: 0.4rem;      /* menos espacio vertical/horizontal */
+    padding: 0.4rem;      
 }
 
 .table td.titulo,
@@ -64,8 +54,8 @@ nav.navbar {
 
 .table td.sinopsis {
     max-width: 150px;
-    white-space: normal;   /* permite saltos de línea */
-    word-wrap: break-word; /* corta palabras largas */
+    white-space: normal;  
+    word-wrap: break-word; 
 }
 
 
@@ -77,22 +67,27 @@ nav.navbar {
     max-width: 120px;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: normal; /* permite saltos de línea */
+    white-space: normal; 
     word-wrap: break-word;
 }
 
 
 .table td.acciones {
-    white-space: nowrap; /* evita que los botones se rompan en varias líneas */
-    min-width: 140px;   /* 🔹 asegura espacio mínimo */
+    white-space: nowrap; 
+    min-width: 140px;   
 }
 .table td.acciones .btn {
-    margin: 2px; /* espacio mínimo entre botones */
-    font-size: 0.75rem; /* botones más compactos */
+    margin: 2px; 
+    font-size: 0.75rem; 
 }
 
 .table td.acciones .btn {
-    display: block;      /* 🔹 cada botón ocupa toda la línea */
-    width: 100%;         /* opcional: que ocupen todo el ancho */
-    margin-bottom: 4px;  /* espacio entre botones */
+    display: block;      
+    width: 100%;         
+    margin-bottom: 4px;  
+}
+
+.reviews{
+    margin: 2px;
+    font-size: 0.75rem;
 }

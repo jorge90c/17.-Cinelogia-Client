@@ -4,21 +4,21 @@ import java.util.List;
 import org.springframework.web.bind.annotation.PathVariable; 
 import org.springframework.web.bind.annotation.RequestBody; 
 import org.springframework.web.service.annotation.*;
-import com.cliente.cinelogia.model.Rol;
+import com.cliente.cinelogia.model.Authority;
 
 @HttpExchange("/roles")
 public interface RolClient {
     
     @GetExchange 
-    List<Rol> listarRoles(); 
+    List<Authority> listarRoles(); 
     
     @GetExchange("/{id}") 
-    Rol buscarPorId(@PathVariable Integer id);
+    Authority buscarPorId(@PathVariable Integer id);
 
     @PostExchange 
-    Rol creaRol(@RequestBody Rol rol);   
+    Authority guardarRol(@RequestBody Authority rol);   
 
     @DeleteExchange("/{id}") 
-    Rol eliminaRol(@PathVariable Integer id);   
+    Authority eliminarPorId(@PathVariable Integer id);   
 
 }

@@ -10,10 +10,11 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-              <li class="nav-item"><a class="nav-link text-light" th:href="@{/ListaPeliculas}">Películas</a></li>
-              <li class="nav-item"><a class="nav-link text-light" th:href="@{/actores}">Actores</a></li>
-              <li class="nav-item"><a class="nav-link text-light" th:href="@{/usuarios}">Usuarios</a></li>
-              <li class="nav-item"><a class="nav-link text-light" th:href="@{/roles}">Roles</a></li>
+              <li class="nav-item"><a class="nav-link text-light" th:href="@{/ListaPeliculas}" sec:authorize="hasRole('ROLE_ADMIN')">Películas</a></li>
+              <li class="nav-item"><a class="nav-link text-light" th:href="@{/actores}" sec:authorize="hasRole('ROLE_ADMIN')">Actores</a></li>
+              <li class="nav-item"><a class="nav-link text-light" th:href="@{/usuarios}" sec:authorize="hasRole('ROLE_ADMIN')">Usuarios</a></li>
+              <li class="nav-item"><a class="nav-link text-light" th:href="@{/roles}" sec:authorize="hasRole('ROLE_ADMIN')">Roles</a></li>
+              <li class="nav-item"> <a class="nav-link text-light" th:href="@{/mis-reviews}" sec:authorize="isAuthenticated()"> Mis Comentarios </a> </li>
             </ul>
           </div>
         </div>

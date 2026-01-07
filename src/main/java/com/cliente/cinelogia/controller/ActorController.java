@@ -20,18 +20,15 @@ import jakarta.validation.Valid;
 @RequestMapping("/actores")
 public class ActorController {
 
-
     @Autowired 
     IActorService actorService;
 
-    // Listar actores
     @GetMapping
         public String listarActores(Model model) {
         model.addAttribute("actores", actorService.listarActores());
         return "actores/actores";
     }
 
-    //Mostrar formulario de creación
     @GetMapping("/nuevo")
     public String nuevoActor(Model model) {
         model.addAttribute("actor", new Actor());
@@ -39,7 +36,6 @@ public class ActorController {
         return "actores/actor_form";
     }
 
-     //Guardar actor
     @PostMapping("/guardar")
     public String guardarActor(@Valid @ModelAttribute Actor actor,
                                BindingResult result,
@@ -52,7 +48,6 @@ public class ActorController {
         return "redirect:/actores";
     }
 
-    //Ver actor
     @GetMapping("/ver/{id}")
     public String verActor(@PathVariable Integer id, Model model) {
         Actor actor = actorService.buscarPorId(id);
@@ -61,7 +56,6 @@ public class ActorController {
         return "actores/actor_form";
     }
 
-    //Editar actor
     @GetMapping("/editar/{id}")
     public String editarActor(@PathVariable Integer id, Model model) {
         Actor actor = actorService.buscarPorId(id);
@@ -70,7 +64,6 @@ public class ActorController {
         return "actores/actor_form";
     }
 
-    // 🔹 Actualizar actor
     @PostMapping("/actualizar/{id}")
     public String actualizarActor(@PathVariable Long id,
                                   @Valid @ModelAttribute Actor actor,
@@ -84,7 +77,6 @@ public class ActorController {
         return "redirect:/actores";
     }
 
-    // 🔹 Eliminar actor
     @PostMapping("/eliminar/{id}")
     public String eliminarActor(@PathVariable Long id) {
         actorService.eliminarPorId(id);

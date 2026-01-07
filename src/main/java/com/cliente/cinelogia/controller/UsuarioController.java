@@ -1,5 +1,6 @@
 package com.cliente.cinelogia.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.cliente.cinelogia.dto.UsuarioResponseDTO;
-import com.cliente.cinelogia.model.Rol;
-import com.cliente.cinelogia.model.Usuario;
+import com.cliente.cinelogia.model.Authority;
+import com.cliente.cinelogia.model.User;
 import com.cliente.cinelogia.service.IRolService;
 import com.cliente.cinelogia.service.IUsuarioService;
 
@@ -28,18 +29,15 @@ public class UsuarioController {
     @Autowired
     IRolService rolService;
     
-
-    //Nuevo usuario (formulario)
     @GetMapping("/usuarios/nuevo")
     public String nuevoUsuario(Model model) {
-        model.addAttribute("usuario", new Usuario());
+        model.addAttribute("usuario", new User());
         model.addAttribute("modo", "crear");
         return "/usuarios/usuario_form";
     }
 
-    // Guardar Nuevo usuario , le asigna un rol USER por defecto
     @PostMapping("/usuarios/guardar")
-    public String guardarUsuario(@Valid @ModelAttribute Usuario usuario,
+    public String guardarUsuario(@Valid @ModelAttribute User usuario,
                                 BindingResult result,
                                 Model model) {
         if (result.hasErrors()) {
@@ -47,115 +45,105 @@ public class UsuarioController {
             return "/usuarios/usuario_form";
         }
 
-        // Asignar rol por defecto (id=2) al crear
-        if (usuario.getRol() == null || usuario.getRol().getId() == null) {
-            Rol rolPorDefecto = new Rol();
+        if (usuario.getRoles() == null || usuario.getRoles().isEmpty()) {
+            Authority rolPorDefecto = new Authority();
             rolPorDefecto= rolService.buscarPorId(2); // ID del rol USER por defecto        
-            usuario.setRol(rolPorDefecto);
+            usuario.setRoles(List.of(rolPorDefecto));
         }
         usuarioService.crearUsuario(usuario);
         return "redirect:/usuarios";
     }
 
-    // Listar usuarios
     @GetMapping("/usuarios")
-    public String listaUsuarios(Model model) {
-        model.addAttribute("usuarios",usuarioService.listarUsuarios());
+    public String listaUsuarios(@RequestParam(required = false) String username,Model model) {
+        List<User> usuarios; 
+        if (username != null && !username.isBlank()) 
+            { 
+                usuarios = usuarioService.buscarPorUsername(username); 
+            } 
+        else { 
+            usuarios = usuarioService.listarUsuarios(); 
+        }
+        
+        model.addAttribute("usuarios", usuarios); 
+        model.addAttribute("username", username);
         return "usuarios/usuarios"; 
     }
 
-    // Ver usuario (solo lectura por ID)
     @GetMapping("/usuarios/ver/{id}")
-    public String verUsuario(@PathVariable Long id, Model model) {
+    public String verUsuario(@PathVariable Integer id, Model model) {
         var dto = usuarioService.buscarPorId(id);
-
-        Usuario usuario = new Usuario();
-        usuario.setId(dto.getId());
+        User usuario = new User();
+        usuario.setIdUsuario(dto.getIdUsuario());
         usuario.setUsername(dto.getUsername());
         usuario.setCorreo(dto.getCorreo());
-        usuario.setNombre(dto.getNombre());
-        usuario.setApellido(dto.getApellido());
-
-        // Crear objeto Rol a partir del rolNombre del DTO
-        Rol rol = new Rol();
-        rol.setNombre(dto.getRolNombre());
-        usuario.setRol(rol);
-
+        usuario.setEnable(dto.getEnable());
+        usuario.setRoles(dto.getRoles());
         model.addAttribute("usuario", usuario);
         model.addAttribute("modo", "verUsuario"); //Modo para esconder el password y modo visualizacion
         return "usuarios/usuario_form"; 
     }
 
-    // Editar usuario (formulario)
-    @GetMapping("/usuarios/editar/{id}")
-    public String editarUsuario(@PathVariable Long id, Model model) {
-        var dto = usuarioService.buscarPorId(id);
-
-        Usuario usuario = new Usuario();
-        usuario.setId(dto.getId());
-        usuario.setUsername(dto.getUsername());
-        usuario.setCorreo(dto.getCorreo());
-        usuario.setNombre(dto.getNombre());
-        usuario.setApellido(dto.getApellido());
-
-        List<Rol> roles=rolService.listarRoles();
-            Rol rolActual = new Rol();
-            for (Rol r : roles) {
-                if (r.getNombre().equals(dto.getRolNombre())) {
-                    rolActual.setId(r.getId());
-                    rolActual.setNombre(r.getNombre());
-                    rolActual.setDescripcion(r.getDescripcion());
-                    break;
-                }
-            }
-
-        usuario.setRol(rolActual);
-
-        // 🔹 Traer todos los roles disponibles
-        model.addAttribute("roles", rolService.listarRoles());
-        model.addAttribute("usuario", usuario);
-        model.addAttribute("modo", "editar");
-        return "usuarios/usuario_form";
+    
+    @GetMapping("/usuarios/editar/{id}") 
+    public String editarUsuario(@PathVariable Integer id, Model model) 
+    { 
+        var dto = usuarioService.buscarPorId(id); 
+        User usuario = new User(); 
+        usuario.setIdUsuario(dto.getIdUsuario());
+        usuario.setUsername(dto.getUsername()); 
+        usuario.setCorreo(dto.getCorreo()); 
+        usuario.setEnable(dto.getEnable()); 
+        if (dto.getRoles() == null) 
+            { 
+                usuario.setRoles(new ArrayList<>()); 
+            } 
+        else { 
+            usuario.setRoles(dto.getRoles()); 
+        }
+        model.addAttribute("roles", rolService.listarRoles()); 
+        model.addAttribute("usuario", usuario); 
+        model.addAttribute("modo", "editar"); 
+        return "usuarios/usuario_form"; 
     }
 
-    //Actualizar usuario
-    @PostMapping("/usuarios/actualizar/{id}")
-    public String actualizarUsuario(@PathVariable Long id,
-                                    @Valid @ModelAttribute Usuario usuario,
+    
+    @PostMapping("/usuarios/actualizar")
+    public String actualizarUsuario(@Valid @ModelAttribute User usuario,
                                     BindingResult result,
                                     Model model) {
         if (result.hasErrors()) {
-            // Recargar lista de roles para el formulario
+            model.addAttribute("usuario", usuario);
             model.addAttribute("roles", rolService.listarRoles());
             model.addAttribute("modo", "editar");
-            return "usuarios/usuario_form";
+            return "/usuarios/usuario_form";
         }
 
-        // Si el rol no viene informado en el formulario, mantener el rol actual
-        if (usuario.getRol() == null || usuario.getRol().getId() == null) {
-            UsuarioResponseDTO usuarioActual = usuarioService.buscarPorId(id);
-            List<Rol> roles=rolService.listarRoles();
-            Rol rolActual = new Rol();
-            for (Rol r : roles) {
-                if (r.getNombre().equals(usuarioActual.getRolNombre())) {
-                    rolActual.setId(r.getId());
-                    rolActual.setNombre(r.getNombre());
-                    rolActual.setDescripcion(r.getDescripcion());
-                    break;
-                }
+        User usuarioActual = usuarioService.buscarPorId(usuario.getIdUsuario());
+        if (usuario.getPassword() == null || usuario.getPassword().isBlank()) {
+            usuario.setPassword(usuarioActual.getPassword());
+        }
+
+        List<Authority> rolesCompletos = new ArrayList<>();
+        if (usuario.getRoles() == null) {
+            usuario.setRoles(usuarioActual.getRoles());
+        }
+
+        for (Authority r : usuario.getRoles()) 
+            {
+                if (r.getIdRol() != null && r.getIdRol() > 0){
+                    Authority rolCompleto = rolService.buscarPorId(r.getIdRol()); 
+                    rolesCompletos.add(rolCompleto);
+                }     
             }
-
-            usuario.setRol(rolActual);
-        }
-
-        usuarioService.actualizarUsuario(id, usuario);
+        usuario.setRoles(rolesCompletos);
+        usuario.setEnable(usuario.getEnable().booleanValue());
+        usuarioService.actualizarUsuario(usuario.getIdUsuario(), usuario);
         return "redirect:/usuarios";
     }
 
-
-    //Eliminar usuario
     @PostMapping("/usuarios/eliminar/{id}")
-    public String eliminarUsuario(@PathVariable Long id) {
+    public String eliminarUsuario(@PathVariable Integer id) {
         usuarioService.eliminarUsuario(id);
         return "redirect:/usuarios";
     }

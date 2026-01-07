@@ -2,7 +2,7 @@ package com.cliente.cinelogia.dto;
 import jakarta.validation.constraints.NotNull;
 
 public class UsuarioRolUpdateDTO {
-
+/* 
     @NotNull(message = "El ID del rol es obligatorio")
     private Long rolId;
 
@@ -20,6 +20,6 @@ public class UsuarioRolUpdateDTO {
 
     public void setRolId(Long rolId) {
         this.rolId = rolId;
-    }
+    } */
 }
 

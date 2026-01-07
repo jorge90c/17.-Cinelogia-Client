@@ -6,12 +6,12 @@
         <div class="container my-4">
             <h2 class="text-warning text-center mb-4">🎬 Lista de Películas</h2>
 
-            <!-- Botón para añadir nueva película -->
+            
             <div class="text-end mb-3">
                 <a th:href="@{/NuevaPelicula}" class="btn btn-warning">➕ Añadir nueva película</a>
             </div>
 
-            <!-- Buscador -->
+            
             <form th:action="@{/ListaPeliculas}" method="get" class="row g-3 mb-4 align-items-center">
                 <div class="col-md-3">
                     <input type="text" name="titulo" class="form-control bg-dark text-light border-warning"
@@ -74,13 +74,12 @@
                             <td class="acciones">
                                 <a th:href="@{'/peliculas/' + ${pelicula.id}}" class="btn btn-sm btn-outline-warning">Ver</a>
                                 <a th:href="@{'/editarPelicula/' + ${pelicula.id}}" class="btn btn-sm btn-outline-light">Editar</a>
-                                <!--<a th:href="@{'/eliminarPelicula/' + ${pelicula.id}}" class="btn btn-sm btn-outline-danger">Eliminar</a>-->
-                                <!-- Botón que abre el modal -->
+
                                 <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" th:attr="data-bs-target='#confirmarEliminar' + ${pelicula.id}">
                                     Eliminar
                                 </button>
 
-                                <!-- Modal -->
+                              
                                 <div class="modal fade" th:id="'confirmarEliminar' + ${pelicula.id}" tabindex="-1">
                                 <div class="modal-dialog">
                                     <div class="modal-content bg-dark text-light">

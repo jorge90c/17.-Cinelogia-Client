@@ -34,7 +34,7 @@ public class Pelicula {
 
     private String imagenPortada;
 
-    private List<Actor> actores; // relación con actores
+    private List<Actor> actores; 
 
     public Pelicula() {}
 

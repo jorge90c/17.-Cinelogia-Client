@@ -2,8 +2,7 @@ package com.cliente.cinelogia.dto;
 import jakarta.validation.constraints.NotBlank;
 
 public class LoginDTO {
-
-    @NotBlank(message = "El username es obligatorio")
+/*  @NotBlank(message = "El username es obligatorio")
     private String username;
 
     @NotBlank(message = "La contraseña es obligatoria")
@@ -21,6 +20,6 @@ public class LoginDTO {
     public void setUsername(String username) { this.username = username; }
 
     public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    public void setPassword(String password) { this.password = password; }*/
 }
 
