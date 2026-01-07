@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es"
+      th:replace="~{layout :: layout}">
+<body>
+<div th:fragment="contenido" class="d-flex justify-content-center">
+
+    <div class="card bg-dark text-light shadow mt-5" style="max-width: 600px; width: 100%;">
+        <div class="card-header text-center">
+            <h3 class="text-warning">⚠️ Ha ocurrido un error</h3>
+        </div>
+
+        <div class="card-body text-center">
+            <p class="mb-3">Algo no salió como esperábamos.</p>
+
+            <p class="small text-muted">
+                Código: <span th:text="${status}"></span><br>
+                Mensaje: <span th:text="${error}"></span>
+            </p>
+
+            <a th:href="@{/}" class="btn btn-warning mt-3">Volver al inicio</a>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
