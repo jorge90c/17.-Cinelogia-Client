@@ -35,14 +35,27 @@ public class GeneralController {
         List<Pelicula> peliculas = peliculaService.listarPeliculas();
         model.addAttribute("peliculas", peliculas);
         Map<Long, List<Review>> reviewsPorPelicula = new HashMap<>();
+        Map<Long, Double> promedioPorPelicula = new HashMap<>();
         for (Pelicula pelicula : peliculas) {
-            if (pelicula.getId() > 0) {
-                Long id = pelicula.getId(); 
-                List<Review> reviews = reviewService.buscarPorIdPelicula(id); 
-                reviewsPorPelicula.put(id, reviews); 
-            }
+            Long id = pelicula.getId(); 
+            List<Review> reviews = reviewService.buscarPorIdPelicula(id); 
+            reviewsPorPelicula.put(id, reviews); 
+
+            if (reviews != null && !reviews.isEmpty()) 
+                { 
+                    double promedio = reviews.stream() 
+                    .mapToInt(Review::getNota) 
+                    .average() 
+                    .orElse(0); 
+                    promedioPorPelicula.put(id, promedio); 
+                } 
+            else 
+                { 
+                    promedioPorPelicula.put(id, null); // sin comentarios 
+                }
         }
         model.addAttribute("reviewsPorPelicula", reviewsPorPelicula);
+        model.addAttribute("promedioPorPelicula", promedioPorPelicula);
         return "home";
     }
     

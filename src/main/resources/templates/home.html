@@ -71,6 +71,16 @@
                                     <strong>País:</strong> <span th:text="${pelicula.pais}"></span><br>
                                     <strong>Duración:</strong> <span th:text="${pelicula.duracion}"></span> min<br>
                                     <strong>Dirección:</strong> <span th:text="${pelicula.direccion}"></span>
+                                    <br>
+                                    <strong>Actores:</strong>
+                                        <span th:each="actor, iterStat : ${pelicula.actores}">
+                                            <span th:text="${actor.nombre}"></span><span th:if="${!iterStat.last}">, </span>
+                                        </span>
+                                    <br>
+                                    <strong>Nota media:</strong>
+                                        <span th:if="${promedioPorPelicula[pelicula.id] != null}"
+                                            th:text="${#numbers.formatDecimal(promedioPorPelicula[pelicula.id], 1, 1)}"></span>
+                                        <span th:if="${promedioPorPelicula[pelicula.id] == null}">-</span>
                                 </p>
 
                                 <!-- Sinopsis corta -->
